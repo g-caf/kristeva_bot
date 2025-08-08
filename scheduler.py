@@ -50,8 +50,9 @@ def main():
     logging.info("Kristeva bot scheduler started - posting every 10 minutes")
     logging.info("Next run scheduled for: " + str(schedule.next_run()))
     
-    # Run immediately on startup (optional)
-    # run_bot()
+    # Run immediately on startup to test
+    logging.info("Running bot immediately on startup...")
+    run_bot()
     
     # Keep the scheduler running
     while True:
