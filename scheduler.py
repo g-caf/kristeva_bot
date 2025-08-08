@@ -25,6 +25,25 @@ def main():
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
     
+    # Initialize database and load quotes if empty
+    from database import QuoteDatabase
+    from quote_loader import load_quotes_from_file
+    import os
+    
+    db = QuoteDatabase()
+    counts = db.get_quote_count()
+    
+    if counts['total'] == 0:
+        logging.info("Database is empty, loading quotes from CSV...")
+        csv_file = "kristeva_black_sun_tweets_clean_v6 (1).csv"
+        if os.path.exists(csv_file):
+            load_quotes_from_file(csv_file)
+            logging.info("Quotes loaded successfully")
+        else:
+            logging.error(f"Quote file {csv_file} not found!")
+    else:
+        logging.info(f"Database contains {counts['total']} quotes")
+    
     # Schedule the bot to run every hour
     schedule.every().hour.do(run_bot)
     
