@@ -1,0 +1,17 @@
+services:
+  - type: worker
+    name: kristeva-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scheduler.py
+    envVars:
+      - key: TWITTER_API_KEY
+        sync: false
+      - key: TWITTER_API_SECRET
+        sync: false
+      - key: TWITTER_ACCESS_TOKEN
+        sync: false
+      - key: TWITTER_ACCESS_TOKEN_SECRET
+        sync: false
+      - key: TWITTER_BEARER_TOKEN
+        sync: false
