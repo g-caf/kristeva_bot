@@ -44,10 +44,10 @@ def main():
     else:
         logging.info(f"Database contains {counts['total']} quotes")
     
-    # Schedule the bot to run every hour
-    schedule.every().hour.do(run_bot)
+    # Schedule the bot to run every 10 minutes
+    schedule.every(10).minutes.do(run_bot)
     
-    logging.info("Kristeva bot scheduler started - posting every hour")
+    logging.info("Kristeva bot scheduler started - posting every 10 minutes")
     logging.info("Next run scheduled for: " + str(schedule.next_run()))
     
     # Run immediately on startup (optional)
