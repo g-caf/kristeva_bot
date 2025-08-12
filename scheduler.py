@@ -32,27 +32,24 @@ def main():
     
     db = QuoteDatabase()
     
-    # Clear existing quotes to switch to Levinas
+    # Force reload of Levinas quotes
     import sqlite3
     conn = sqlite3.connect(db.db_path)
     cursor = conn.cursor()
     cursor.execute('DELETE FROM quotes')
     conn.commit()
     conn.close()
-    logging.info("Cleared existing quotes for Levinas switch")
+    logging.info("Cleared all quotes to reload Levinas")
     
-    counts = db.get_quote_count()
-    
-    if counts['total'] == 0:
-        logging.info("Database is empty, loading quotes from CSV...")
-        csv_file = "levinas_quotes_clean.csv"
-        if os.path.exists(csv_file):
-            load_quotes_from_file(csv_file, "Emmanuel Levinas")
-            logging.info("Levinas quotes loaded successfully")
-        else:
-            logging.error(f"Quote file {csv_file} not found!")
+    # Load fresh Levinas quotes
+    logging.info("Loading fresh Levinas quotes from CSV...")
+    csv_file = "levinas_quotes_clean.csv"
+    if os.path.exists(csv_file):
+        load_quotes_from_file(csv_file, "Emmanuel Levinas")
+        counts = db.get_quote_count()
+        logging.info(f"Levinas quotes loaded successfully: {counts['total']} total quotes")
     else:
-        logging.info(f"Database contains {counts['total']} quotes")
+        logging.error(f"Quote file {csv_file} not found!")
     
     # Schedule the bot to run every 10 minutes
     schedule.every(10).minutes.do(run_bot)
