@@ -35,9 +35,8 @@ def load_quotes_from_file(filename: str, source_name: str = None):
                         text = row[0].strip().strip('"')  # Remove quotes and whitespace
                         # Handle 3-column format: quote, philosopher, source
                         if len(row) >= 3:
-                            philosopher = row[1].strip()
                             book_source = row[2].strip()
-                            full_source = f"{philosopher} - {book_source}" if philosopher and book_source else source_name
+                            full_source = book_source if book_source else source_name
                         else:
                             full_source = source_name or 'Emmanuel Levinas'
                             
