@@ -31,14 +31,24 @@ def main():
     import os
     
     db = QuoteDatabase()
+    
+    # Clear existing quotes to switch to Levinas
+    import sqlite3
+    conn = sqlite3.connect(db.db_path)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM quotes')
+    conn.commit()
+    conn.close()
+    logging.info("Cleared existing quotes for Levinas switch")
+    
     counts = db.get_quote_count()
     
     if counts['total'] == 0:
         logging.info("Database is empty, loading quotes from CSV...")
-        csv_file = "kristeva_black_sun_tweets_clean_v6 (1).csv"
+        csv_file = "levinas_quotes_clean.csv"
         if os.path.exists(csv_file):
-            load_quotes_from_file(csv_file)
-            logging.info("Quotes loaded successfully")
+            load_quotes_from_file(csv_file, "Emmanuel Levinas")
+            logging.info("Levinas quotes loaded successfully")
         else:
             logging.error(f"Quote file {csv_file} not found!")
     else:
